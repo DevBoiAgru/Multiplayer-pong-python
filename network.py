@@ -2,9 +2,9 @@ IP = "127.0.0.1"
 PORT = 8765
 
 # All possible events that can be sent between the server and the clients
-EVENT_REG_UPDATE = 0            # Regular game update event. Only sent by the server
-EVENT_PR_JOIN = 1               # Priority game joining event. Can be sent by the server and clients
-EVENT_REG_INPUT = 2             # Input event. Only sent by the clients
+EVENT_REG_UPDATE    = 0            # Regular game update event. Only sent by the server
+EVENT_PR_JOIN       = 1            # Priority game joining event. Can be sent by the server and clients
+EVENT_REG_INPUT     = 2            # Input event. Only sent by the clients
 
 class NetworkEvent:
     __slots__ = ('type', 'data')

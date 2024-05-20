@@ -1,11 +1,12 @@
 import socket, pygame, pickle, time, sys
 from _thread import *
-import network
+
+from network import *
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((sys.argv[1], int(sys.argv[2])))
 
-events: list[network.NetworkEvent] = []
+events: list[NetworkEvent] = []
 
 WIDTH: int = None
 HEIGHT: int = None
@@ -19,15 +20,15 @@ def recieveEvents(s: socket.socket):
     while True:
         try:
             eventData = s.recv(1024)
-            event: network.NetworkEvent = pickle.loads(eventData)
+            event: NetworkEvent = pickle.loads(eventData)
 
-            if event.type == network.EVENT_PR_JOIN:
+            if event.type == EVENT_PR_JOIN:
                 PLAYER_INDEX = event.data.get("i")
                 WIDTH = event.data.get("w")
                 HEIGHT = event.data.get("h")
                 FPS = event.data.get("f")
                 READY = True
-            elif event.type == network.EVENT_REG_UPDATE:
+            elif event.type == EVENT_REG_UPDATE:
                 events.append(event)
         except pickle.UnpicklingError:
             pass
@@ -54,7 +55,7 @@ scores = [0, 0]
 
 while True:
     for event in events:
-        if event.type == network.EVENT_REG_UPDATE:
+        if event.type == EVENT_REG_UPDATE:
             paddle1 = pygame.Rect(*event.data.get("p1"))
             paddle2 = pygame.Rect(*event.data.get("p2"))
             ballCoords = event.data.get("b")
@@ -68,10 +69,10 @@ while True:
         # Send input event to the server
         keys = pygame.key.get_pressed()
         if keys[pygame.K_s]:
-            inputEvent = network.NetworkEvent(network.EVENT_REG_INPUT, {"i": PLAYER_INDEX, "a": 0})         # i is playerindex, a is action.
+            inputEvent = NetworkEvent(EVENT_REG_INPUT, {"i": PLAYER_INDEX, "a": 0})         # i is playerindex, a is action.
             sock.send(pickle.dumps(inputEvent))
         elif keys[pygame.K_w]:                                                                              # action 1 is up, 0 is down
-            inputEvent = network.NetworkEvent(network.EVENT_REG_INPUT, {"i": PLAYER_INDEX, "a": 1})
+            inputEvent = NetworkEvent(EVENT_REG_INPUT, {"i": PLAYER_INDEX, "a": 1})
             sock.send(pickle.dumps(inputEvent))
     screen.fill((0,0,0))
 

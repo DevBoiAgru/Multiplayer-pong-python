@@ -1,8 +1,10 @@
-import socket, time, pickle, network
+import socket, time, pickle
 from _thread import *
 
+from network import *
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind((network.IP, network.PORT))
+sock.bind((IP, PORT))
 sock.listen(1)
 
 # GAME
@@ -58,7 +60,7 @@ dt: float = 1/FPS
 
 # Networking
 connections: list[socket.socket] = []
-events: list[network.NetworkEvent] = []
+events: list[NetworkEvent] = []
 
 def recieveEvents(sock: socket.socket):
     global events
@@ -76,7 +78,7 @@ while len(connections) < 2:
     
     # When client joins, send them a join event with their index and add them to the connections list
     joinData = {"i": len(connections), "w": WIDTH, "h": HEIGHT, "f": FPS}
-    joinEvent: network.NetworkEvent = network.NetworkEvent(network.EVENT_PR_JOIN, joinData)
+    joinEvent: NetworkEvent = NetworkEvent(EVENT_PR_JOIN, joinData)
     client.send(pickle.dumps(joinEvent))
 
     connections.append(client)
@@ -85,7 +87,7 @@ while len(connections) < 2:
 
 while running:
     for event in events:
-        if event.type == network.EVENT_REG_INPUT:
+        if event.type == EVENT_REG_INPUT:
             player = event.data.get("i")                  # i is playerindex, a is action. action 1 is up, 0 is down
             paddle = paddle1 if player == 0 else paddle2
             if event.data.get("a") == 1 and paddle.top > 0:
@@ -142,7 +144,7 @@ while running:
         "p1": [paddle1.left, paddle1.top, paddle1.width, paddle1.height],
         "p2": [paddle2.left, paddle2.top, paddle2.width, paddle2.height]
     }
-    updateEvent = network.NetworkEvent(network.EVENT_REG_UPDATE, gameData)
+    updateEvent = NetworkEvent(EVENT_REG_UPDATE, gameData)
     for player in connections:
         try:
             player.send(pickle.dumps(updateEvent))

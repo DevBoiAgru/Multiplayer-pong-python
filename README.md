@@ -10,4 +10,6 @@
 ## Dependencies
 - Pygame (for the client)
 
+### Pong.py is a simple pong game. Control the left paddle with w/s and the right paddle with up/down arrow keys
+
 ## I made this game to learn about sockets and tcp connections so its very rough, and very far from a finished product.
