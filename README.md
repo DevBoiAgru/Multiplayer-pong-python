@@ -7,6 +7,9 @@
 - Once running, a pygame window should open with a white circle in the middle
 - The game will start when the second client joins the game
 
+## Controls:
+W for moving the paddle up, S for moving the paddle down
+
 ## Dependencies
 - Pygame (for the client)
 
