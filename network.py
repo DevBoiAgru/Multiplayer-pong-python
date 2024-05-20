@@ -1,5 +1,5 @@
-IP = "192.168.29.99"
-PORT = 8000
+IP = "127.0.0.1"
+PORT = 8765
 
 # All possible events that can be sent between the server and the clients
 EVENT_REG_UPDATE = 0            # Regular game update event. Only sent by the server

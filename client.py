@@ -43,7 +43,7 @@ while not READY:                           # Wait for the server join event
 # Init
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Multiplayer pong. Player:", str(PLAYER_INDEX))
+pygame.display.set_caption(f"Multiplayer pong. Player: {PLAYER_INDEX}")
 font = pygame.font.Font(pygame.font.get_default_font(), 52)
 clock = pygame.time.Clock()
 

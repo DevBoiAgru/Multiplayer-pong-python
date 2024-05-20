@@ -2,7 +2,7 @@
 .venv/
 
 # Cache files
-__pycache__/
+/__pycache__/
 
 # File for python 3.8 without features like type hints etc.
-server38.py
+/server38.py
